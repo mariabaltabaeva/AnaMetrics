@@ -1,4 +1,7 @@
 class RegisteredApplicationsController < ApplicationController
+
+  before_action :authenticate_user!, except: [:index, :show]
+
   def index
     @registered_applications = RegisteredApplication.all
   end
@@ -12,9 +15,8 @@ class RegisteredApplicationsController < ApplicationController
   end
 
   def create
-    @registered_application = RegisteredApplication.new
-    @registered_application.name = params[:registered_application][:name]
-    @registered_application.url = params[:registered_application][:url]
+    @registered_application = current_user.registered_applications.new(registered_applocation_params)
+    @registered_application
 
     if @registered_application.save
       flash[:notice] = "App was saved."
@@ -31,8 +33,7 @@ class RegisteredApplicationsController < ApplicationController
 
   def update
     @registered_application = RegisteredApplication.find(params[:id])
-    @registered_application.name = params[:registered_application][:name]
-    @registered_application.url = params[:registered_application][:url]
+    @registered_application.assign_attributes(registered_applocation_params)
 
     if @registered_application.save
       flash[:notice] = "App was updated."
@@ -46,7 +47,7 @@ class RegisteredApplicationsController < ApplicationController
   def destroy
     @registered_application = RegisteredApplication.find(params[:id])
     if @registered_application.destroy
-      flash[:notice] = "\"#{registered_application.name}\" was deleted successfully."
+      flash[:notice] = "\"#{@registered_application.name}\" was deleted successfully."
        redirect_to registered_applications_path
      else
        flash.now[:alert] = "There was an error deleting the app."
@@ -54,4 +55,8 @@ class RegisteredApplicationsController < ApplicationController
      end
    end
 
+   private
+   def registered_applocation_params
+     params.require(:registered_application).permit(:name, :url)
+   end
  end
