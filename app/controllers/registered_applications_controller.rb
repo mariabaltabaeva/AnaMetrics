@@ -1,7 +1,4 @@
 class RegisteredApplicationsController < ApplicationController
-
-  before_action :authenticate_user!, except: [:index, :show]
-
   def index
     @registered_applications = RegisteredApplication.all
   end
@@ -15,7 +12,7 @@ class RegisteredApplicationsController < ApplicationController
   end
 
   def create
-    @registered_application = current_user.registered_applications.new(registered_applocation_params)
+    @registered_application = current_user.registered_applications.new(registered_application_params)
     @registered_application
 
     if @registered_application.save
@@ -33,7 +30,7 @@ class RegisteredApplicationsController < ApplicationController
 
   def update
     @registered_application = RegisteredApplication.find(params[:id])
-    @registered_application.assign_attributes(registered_applocation_params)
+    @registered_application.assign_attributes(registered_application_params)
 
     if @registered_application.save
       flash[:notice] = "App was updated."
@@ -56,7 +53,7 @@ class RegisteredApplicationsController < ApplicationController
    end
 
    private
-   def registered_applocation_params
+   def registered_application_params
      params.require(:registered_application).permit(:name, :url)
    end
  end
