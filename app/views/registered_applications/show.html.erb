@@ -7,9 +7,13 @@
 
   <div class="row">
     <div class="col-md-8">
-      <p>Events</p>
-      <%= @events %>
-    </div>
+      <p>Events:</p>
+      <% @events.each  do |name,events_type|%>
+      <p> <%= name %></p>
+      <%= events_type.count %>
+      <% end %>
+      </div>
+
 
     <div class="col-md-4">
       <%= link_to "Edit App", edit_registered_application_path(@registered_application), class: 'btn btn-success' %>
