@@ -12,7 +12,9 @@ class API::EventsController < ApplicationController
     headers['Access-Control-Allow-Headers'] = 'Content-Type'
   end
 
-
+  def preflight
+    head 200
+  end
 
   def create
     registered_application = RegisteredApplication.find_by(url: request.env['HTTP_ORIGIN'])
@@ -31,9 +33,5 @@ class API::EventsController < ApplicationController
   private
   def event_params
     params.require(:event).permit(:name)
-  end
-
-  def preflight
-    head 200
   end
 end
