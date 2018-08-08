@@ -10,7 +10,9 @@
       <p>Events:</p>
       <% @events.each  do |name,events_type|%>
       <p> <%= name %></p>
-      <%= events_type.count %>
+      <%= pie_chart @registered_application.events.group(:name).count %>
+      <%= line_chart @registered_application.events.group_by_day(:created_at).count %>
+
       <% end %>
     </div>
 
