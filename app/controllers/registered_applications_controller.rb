@@ -1,4 +1,6 @@
 class RegisteredApplicationsController < ApplicationController
+  before_action :authenticate_user!
+  
   def index
     @registered_applications = RegisteredApplication.all
   end
