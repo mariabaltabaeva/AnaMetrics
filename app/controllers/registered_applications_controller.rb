@@ -1,5 +1,6 @@
 class RegisteredApplicationsController < ApplicationController
-  before_action :authenticate_user!
+  #before_action :authenticate_user!
+  skip_before_action :authenticate_user!, raise: false
   
   def index
     @registered_applications = RegisteredApplication.all
